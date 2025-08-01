@@ -1,0 +1,1 @@
+# climate-auto-dry-after-off-shutdown.yaml
