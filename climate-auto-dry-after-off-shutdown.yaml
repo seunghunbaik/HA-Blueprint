@@ -111,7 +111,7 @@ action:
     target:
       entity_id: !input target_ac
     data:
-      fan_mode: high
+      fan_mode: 4
 
   - delay:
       minutes: !input wind_duration
