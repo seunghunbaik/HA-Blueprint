@@ -3,10 +3,10 @@ blueprint:
   description: >
     After the selected air conditioner has been running for a configured minimum duration,
     this automation triggers when it turns off. After a short delay, it switches the AC to 
-    fan-only mode at high speed for a configured time, then turns it off automatically.
+    fan-only mode at the configured fan speed for a configured time, then turns it off automatically.
 
     선택한 에어컨이 설정된 최소 시간 이상 동작한 후 꺼지면,
-    약간의 지연 후 송풍 강풍 모드로 전환되고 지정된 시간 동안 작동한 뒤 자동으로 꺼집니다.
+    약간의 지연 후 지정한 팬 속도의 송풍 모드로 전환되고 지정된 시간 동안 작동한 뒤 자동으로 꺼집니다.
 
   domain: automation
 
@@ -63,6 +63,26 @@ blueprint:
           unit_of_measurement: minutes
           mode: slider
 
+    fan_speed:
+      name: Fan Speed / 송풍 팬 속도
+      description: >
+        Fan speed to use during fan-only mode. Must be one of the values listed in the
+        climate entity's fan_modes attribute. If your AC uses different names,
+        type a custom value.
+
+        송풍 모드에서 사용할 팬 속도입니다. 반드시 climate 엔티티의 fan_modes 속성에 있는
+        값이어야 합니다. 목록에 없는 이름을 쓰는 기기라면 직접 입력하세요.
+      default: high
+      selector:
+        select:
+          options:
+            - high
+            - mid_high
+            - medium
+            - low_mid
+            - low
+          custom_value: true
+
     command_gap:
       name: Delay Between Commands (seconds) / 명령 간 지연 시간 (초)
       description: >
@@ -111,7 +131,7 @@ action:
     target:
       entity_id: !input target_ac
     data:
-      fan_mode: 4
+      fan_mode: !input fan_speed
 
   - delay:
       minutes: !input wind_duration
